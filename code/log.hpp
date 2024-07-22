@@ -9,7 +9,7 @@
 #include <memory>
 #include <set>
 #include <cstdarg>
-namespace Log
+namespace Log_util
 {
     const size_t BUFFSIZE = 1024;
     // 日志等级
@@ -107,27 +107,27 @@ namespace Log
 #define LOG(level,str, ...)                                                                                                                                                                          \
     do                                                                                                                                                                                           \
     {                                                                                                                                                                                            \
-        Log::logger::get_logger()->log(std::make_shared<log_event>(level, __FILE__, __LINE__, std::this_thread::get_id(), -1, std::chrono::system_clock::now(), str, ##__VA_ARGS__)); \
+        Log_util::logger::get_logger()->log(std::make_shared<Log_util::log_event>(level, __FILE__, __LINE__, std::this_thread::get_id(), -1, std::chrono::system_clock::now(), str, ##__VA_ARGS__)); \
     } while (0)
 #define ADD_APPENDER_STDOUT(LEVEL)                                                                   \
     do                                                                                               \
     {                                                                                                \
-        Log::logger::get_logger()->add_appender(std::make_shared<Log::log_stdout>("stdout", LEVEL)); \
+        Log_util::logger::get_logger()->add_appender(std::make_shared<Log_util::log_stdout>("stdout", LEVEL)); \
     } while (0)
 #define ADD_APPENDER_FILEOUT(LEVEL, FILENAME)                                                         \
     do                                                                                                \
     {                                                                                                 \
-        Log::logger::get_logger()->add_appender(std::make_shared<Log::log_fileout>(FILENAME, LEVEL)); \
+        Log_util::logger::get_logger()->add_appender(std::make_shared<Log_util::log_fileout>(FILENAME, LEVEL)); \
     } while (0)
 #define DEL_APPENDER_FILEOUT(FILENAME)                     \
     do                                                     \
     {                                                      \
-        Log::logger::get_logger()->del_appender(FILENAME); \
+        Log_util::logger::get_logger()->del_appender(FILENAME); \
     } while (0)
 #define DEL_APPENDER_STDOUT()                              \
     do                                                     \
     {                                                      \
-        Log::logger::get_logger()->del_appender("stdout"); \
+        Log_util::logger::get_logger()->del_appender("stdout"); \
     } while (0)
 
     // 向标准输出输出
