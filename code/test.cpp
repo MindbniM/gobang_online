@@ -1,5 +1,5 @@
-#include"log.hpp"
-#include"Thread.hpp"
+#include"util/log.hpp"
+#include"util/Thread.hpp"
 #include<unistd.h>
 void test()
 {
