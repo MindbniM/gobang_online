@@ -11,3 +11,6 @@ logger管理所有输出的appender,log_format用于日志格式,log_event描述
 `DEL_APPENDER_FILEOUT(filename)`:取消一个文件的日志输出  
 `DEL_APPENDER_STDOUT()`:取消标准输出的日志输出  
 `LOG(level,str,...)`:向所有已经被添加的日志输出输出日志,level为日志等级,后面用法与printf一样  
+### 线程模块
+主要封装了pthread库的线程接口,模拟c++thread库的调用,便于后面封装线程池  
+
