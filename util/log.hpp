@@ -93,10 +93,15 @@ namespace Log_util
             if (_outs.count(p))
                 _outs.erase(p);
         }
-        void log(log_event::ptr event)
+        void log(log_event::ptr event,const std::string& fname="ANY")
         {
             for (auto &i : _outs)
-                i->log(event);
+            {
+                if(fname=="ANY"||fname==i->get_name())
+                {
+                    i->log(event);
+                }
+            }
         }
 
     private:
@@ -104,10 +109,16 @@ namespace Log_util
         {}
         std::set<log_appender::ptr, _FUNC_> _outs; // 日志输出地集合
     };
+//在所有添加的日志输出地输出
 #define LOG(level,str, ...)                                                                                                                                                                          \
     do                                                                                                                                                                                           \
     {                                                                                                                                                                                            \
         Log_util::logger::get_logger()->log(std::make_shared<Log_util::log_event>(level, __FILE__, __LINE__, std::this_thread::get_id(), -1, std::chrono::system_clock::now(), str, ##__VA_ARGS__)); \
+    } while (0)
+#define FLOG(file,level,str, ...)                                                                                                                                                                          \
+    do                                                                                                                                                                                           \
+    {                                                                                                                                                                                            \
+        Log_util::logger::get_logger()->log(std::make_shared<Log_util::log_event>(level, __FILE__, __LINE__, std::this_thread::get_id(), -1, std::chrono::system_clock::now(), str, ##__VA_ARGS__),file); \
     } while (0)
 #define ADD_APPENDER_STDOUT(LEVEL)                                                                   \
     do                                                                                               \
@@ -185,6 +196,7 @@ namespace Log_util
         if (!_file.is_open())
         {
             std::cout << "文件打开失败" << std::endl;
+            return ;
         }
         if (event->_level >= _mlevel)
         {
